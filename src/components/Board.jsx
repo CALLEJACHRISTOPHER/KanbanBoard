@@ -57,12 +57,15 @@ export default function Board() {
 	}
 
 	function updateRecord(id, completed = "") {
+		// console.log(`http://localhost:3000/update/${id}`);
 		fetch(`http://localhost:3000/update/${id}`, {
-			method: "PUT",
+			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ id, completed }),
+			body: JSON.stringify({ completed }),
+		}).catch((error) => {
+			console.log(error);
 		});
 	}
 
@@ -73,18 +76,23 @@ export default function Board() {
 			case "1": // TO DO
 				updatedTask = { ...task, completed: "to do" };
 				setIncomplete([updatedTask, ...incomplete]);
+				// console.log(task._id);
+				updateRecord(task._id, "to do");
 				break;
 			case "2": // DONE
 				updatedTask = { ...task, completed: "done" };
 				setCompleted([updatedTask, ...completed]);
+				updateRecord(task._id, "done");
 				break;
 			case "3": // IN REVIEW
 				updatedTask = { ...task, completed: "in progress" };
 				setInProgress([updatedTask, ...inProgress]);
+				updateRecord(task._id, "in progress");
 				break;
 			case "4": // BACKLOG
 				updatedTask = { ...task, completed: "backlog" };
 				setBacklog([updatedTask, ...backlog]);
+				updateRecord(task._id, "backlog");
 				break;
 		}
 	}

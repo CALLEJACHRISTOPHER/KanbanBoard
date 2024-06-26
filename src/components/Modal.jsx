@@ -6,12 +6,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { DatePicker } from "@mui/x-date-pickers";
 import ComboBox from "./ComboBox";
+import DateTimePicker from "./DateTimePicker";
 
 export default function FormDialog() {
 	const [open, setOpen] = React.useState(false);
-
+	const elementStyle = { marginTop: "16px" };
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
@@ -42,19 +42,22 @@ export default function FormDialog() {
 			>
 				<DialogTitle>Add Task</DialogTitle>
 				<DialogContent>
-					<DialogContentText>Add Tags </DialogContentText>
-					{/* <TextField
+					<DialogContentText>Add Tags For your Tasks</DialogContentText>
+					<TextField
 						autoFocus
 						required
 						margin="dense"
-						id="name"
-						name="email"
-						label="Email Address"
-						type="email"
+						id="task"
+						name="task"
+						label="Task Name"
+						// type="email"
 						fullWidth
 						variant="standard"
-					/> */}
-					<ComboBox />
+						style={elementStyle}
+					/>
+					<ComboBox style={elementStyle} />
+					<DateTimePicker title="Date Assigned" style={elementStyle} />
+					<DateTimePicker title="Due Date" style={elementStyle} />
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleClose}>Cancel</Button>
