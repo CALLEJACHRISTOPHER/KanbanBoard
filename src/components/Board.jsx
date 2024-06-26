@@ -10,11 +10,13 @@ export default function Board() {
 
 	// load contents from database or api
 	useEffect(() => {
-		fetch("https://jsonplaceholder.typicode.com/todos?userId=1")
+		fetch("http://localhost:3000/task")
 			.then((response) => response.json())
 			.then((json) => {
-				setCompleted(json.filter((task) => task.completed));
-				setIncomplete(json.filter((task) => !task.completed));
+				setCompleted(json.filter((task) => task.completed == "done"));
+				setIncomplete(json.filter((task) => task.completed == "to do"));
+				setInProgress(json.filter((task) => task.completed == "in progress"));
+				setBacklog(json.filter((task) => task.completed == "backlog"));
 			});
 	}, []);
 
@@ -54,35 +56,45 @@ export default function Board() {
 		}
 	}
 
+	function updateRecord(id, completed = "") {
+		fetch(`http://localhost:3000/update/${id}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ id, completed }),
+		});
+	}
+
 	// update record
 	function setNewState(destinationDroppableId, task) {
 		let updatedTask;
 		switch (destinationDroppableId) {
 			case "1": // TO DO
-				updatedTask = { ...task, completed: false };
+				updatedTask = { ...task, completed: "to do" };
 				setIncomplete([updatedTask, ...incomplete]);
 				break;
 			case "2": // DONE
-				updatedTask = { ...task, completed: true };
+				updatedTask = { ...task, completed: "done" };
 				setCompleted([updatedTask, ...completed]);
 				break;
 			case "3": // IN REVIEW
-				updatedTask = { ...task, completed: false };
+				updatedTask = { ...task, completed: "in progress" };
 				setInProgress([updatedTask, ...inProgress]);
 				break;
 			case "4": // BACKLOG
-				updatedTask = { ...task, completed: false };
+				updatedTask = { ...task, completed: "backlog" };
 				setBacklog([updatedTask, ...backlog]);
 				break;
 		}
 	}
 
 	function findItemById(id, array) {
-		return array.find((item) => item.id == id);
+		return array.find((item) => item._id == id);
 	}
 
 	function removeItemById(id, array) {
-		return array.filter((item) => item.id != id);
+		return array.filter((item) => item._id != id);
 	}
 
 	return (
@@ -95,7 +107,7 @@ export default function Board() {
 					justifyContent: "space-between",
 					alignItems: "center",
 					flexDirection: "row",
-					width: "1300px",
+					width: "1000px",
 					margin: "0 auto",
 				}}
 			>

@@ -9,7 +9,7 @@ const Container = styled.div`
 	padding: 8px;
 	color: #000;
 	margin-bottom: 8px;
-	min-height: 120px;
+	min-height: 80px;
 	margin-left: 10px;
 	margin-right: 10px;
 	background-color: ${(props) => bgcolorChange(props)};
@@ -19,7 +19,9 @@ const Container = styled.div`
 	flex-direction: column;
 `;
 
-const TextContent = styled.div``;
+const TextContent = styled.div`
+	font-size: 0.75em;
+`;
 
 const Icons = styled.div`
 	display: flex;
@@ -40,7 +42,7 @@ function bgcolorChange(props) {
 
 export default function Card({ task, index }) {
 	return (
-		<Draggable draggableId={`${task.id}`} key={task.id} index={index}>
+		<Draggable draggableId={`${task._id}`} key={task._id} index={index}>
 			{(provided, snapshot) => (
 				<Container
 					{...provided.draggableProps}
@@ -51,7 +53,7 @@ export default function Card({ task, index }) {
 					<div style={{ display: "flex", justifyContent: "start", padding: 2 }}>
 						<span>
 							<small>
-								#{task.id}
+								{task.completed.toString()}
 								{"  "}
 							</small>
 						</span>
@@ -62,12 +64,12 @@ export default function Card({ task, index }) {
 						<TextContent>{task.title}</TextContent>
 					</div>
 					<Icons>
-						<div>
+						{/* <div>
 							<Avatar
 								onClick={() => console.log(task)}
 								src={"https://joesch.moe/api/v1/random?key=" + task.id}
 							/>
-						</div>
+						</div> */}
 					</Icons>
 					{provided.placeholder}
 				</Container>
