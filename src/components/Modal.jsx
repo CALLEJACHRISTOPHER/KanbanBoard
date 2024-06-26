@@ -6,18 +6,27 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import ComboBox from "./ComboBox";
-import DateTimePicker from "./DateTimePicker";
+import ComboBox from "./ComboBox"; // Assuming ComboBox is another component you have
+import DateTimePicker from "./DateTimePicker"; // Assuming DateTimePicker is your date picker component
 
 export default function FormDialog() {
 	const [open, setOpen] = React.useState(false);
 	const elementStyle = { marginTop: "16px" };
+
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
 
 	const handleClose = () => {
 		setOpen(false);
+	};
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		const formData = new FormData(event.currentTarget);
+		const formJson = Object.fromEntries(formData.entries());
+		console.log(formJson); // Process the form data as needed
+		handleClose();
 	};
 
 	return (
@@ -30,14 +39,7 @@ export default function FormDialog() {
 				onClose={handleClose}
 				PaperProps={{
 					component: "form",
-					onSubmit: (event) => {
-						event.preventDefault();
-						const formData = new FormData(event.currentTarget);
-						const formJson = Object.fromEntries(formData.entries());
-						const email = formJson.email;
-						console.log(email);
-						handleClose();
-					},
+					onSubmit: handleSubmit,
 				}}
 			>
 				<DialogTitle>Add Task</DialogTitle>
@@ -50,14 +52,21 @@ export default function FormDialog() {
 						id="task"
 						name="task"
 						label="Task Name"
-						// type="email"
 						fullWidth
 						variant="standard"
 						style={elementStyle}
 					/>
-					<ComboBox style={elementStyle} />
-					<DateTimePicker title="Date Assigned" style={elementStyle} />
-					<DateTimePicker title="Due Date" style={elementStyle} />
+					<ComboBox style={elementStyle} name="tags" />
+					<DateTimePicker
+						title="Date Assigned"
+						style={elementStyle}
+						name="dateAssigned"
+					/>
+					<DateTimePicker
+						title="Due Date"
+						style={elementStyle}
+						name="dueDate"
+					/>
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleClose}>Cancel</Button>

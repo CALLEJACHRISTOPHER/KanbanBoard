@@ -8,7 +8,7 @@ const Container = styled.div`
 	background-color: #f4f5f7;
 	border-radius: 2.5px;
 	width: 400px;
-	height: 900px;
+	height: 500px;
 	overflow-y: scroll;
 	-ms-overflow-style: none;
 	scrollbar-width: none;
@@ -46,7 +46,7 @@ export default function Column({ title, tasks, id }) {
 					<TaskList
 						ref={provided.innerRef}
 						{...provided.droppableProps}
-						isDraggingOver={snapshot.isDraggingOver}
+						isdraggingover={snapshot.isDraggingOver.toString()}
 					>
 						{tasks.map((task, index) => (
 							<Card key={index} index={index} task={task} />

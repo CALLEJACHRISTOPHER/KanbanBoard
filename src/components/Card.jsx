@@ -48,7 +48,7 @@ export default function Card({ task, index }) {
 					{...provided.draggableProps}
 					{...provided.dragHandleProps}
 					ref={provided.innerRef}
-					isDragging={snapshot.isDragging}
+					isdragging={snapshot.isDragging.toString()}
 				>
 					<div style={{ display: "flex", justifyContent: "start", padding: 2 }}>
 						<span>
